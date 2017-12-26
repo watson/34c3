@@ -1,0 +1,42 @@
+{
+  "name": "34c3",
+  "version": "0.0.0",
+  "description": "Chaos Communication Congress 2017 Schedule on the Command Line",
+  "bin": "index.js",
+  "scripts": {
+    "test": "standard",
+    "update": "curl https://events.ccc.de/congress/2017/Fahrplan/schedule.xml > schedule.xml"
+  },
+  "keywords": [
+    "ccc",
+    "34c3",
+    "program",
+    "schedule",
+    "event",
+    "events",
+    "talks",
+    "conf",
+    "conference"
+  ],
+  "author": "Thomas Watson <w@tson.dk> (https://twitter.com/wa7son)",
+  "license": "MIT",
+  "dependencies": {
+    "cliui": "^4.0.0",
+    "download-to-file": "^2.1.0",
+    "inquirer": "^2.0.0",
+    "minimist": "^1.2.0",
+    "nearest-date": "^1.0.1",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watson/34c3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/watson/34c3/issues"
+  },
+  "homepage": "https://github.com/watson/34c3#readme"
+}
