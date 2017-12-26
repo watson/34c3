@@ -107,7 +107,7 @@ function chooseTalk (schedule, selected) {
     if (!room.event) return
     room.event.forEach(function (event, index) {
       choices.push({
-        name: event.start + ': ' + event.title[0] + ' (' + event.room + ')',
+        name: `${event.start}: ${event.title[0]} (${event.room}, ${event.language[0].toUpperCase()})`,
         value: {room: roomIndex, event: index, date: (new Date(event.date[0])).getTime()}
       })
     })
