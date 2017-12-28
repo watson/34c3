@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <schedule>
-<version>HAKP</version>
+<version>bcc</version>
 <conference>
 <acronym>34c3</acronym>
 <title>34th Chaos Communication Congress</title>
@@ -489,39 +489,37 @@ Im CADUS-Makerspace in Berlin wird an diversen Lösungen bereits gebastelt. Der 
 <optout>false</optout>
 </recording>
 <title>Demystifying Network Cards</title>
-<subtitle>Things you always wanted to know about your NIC</subtitle>
+<subtitle>Things you always wanted to know about NIC drivers</subtitle>
 <track>Hardware &amp; Making</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>Network cards (NICs) are often seen as black boxes: you put data in a socket on one side and packets come out at the other end - or the other way around.
-Let&#39;s have a deeper look at how a network card actually works at the lower levels by writing a simple userspace driver from scratch for a 10 Gbit/s NIC.
-
-
-The first part of the talk looks at the evolution from 10 Mbit/s to 100 Gbit/s networks - both from a hardware perspective and how the software had to change from Linux pre-NAPI all the way to Linux XDP to keep up.
-Hundreds of thousands of lines of code are involved when handling a packet in a typical operating system.
-Reading and understanding so much code is quite tedious, so the obvious next question is: How hard can it be to implement a driver for a modern 10 Gbit/s NIC from scratch while ignoring all of the existing software layers?
-Turns out that it&#39;s not very hard: I&#39;ve written &lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;ixy&lt;/a&gt;, a userspace driver for 10 Gbit/s NICs from the Intel 82599 family (X520, X540, X550) from scratch in just about 1000 lines of C code.
-The second part of the talk focuses on userspace drivers and the Intel 82599 architecture as it is easy to understand, has a great datasheet, and the core functionality is in the driver as opposed to a magic black-box firmware.
-You will not only learn about my driver implementation - the talk also discusses how it relates to similar network frameworks like DPDK or Snabb and seemingly similar frameworks like netmap, XDP, pf_ring, or pfq.
+<abstract>Network cards are often seen as black boxes: you put data in a socket on one side and packets come out at the other end - or the other way around.
+Let&#39;s have a deeper look at how a network card actually works at the lower levels by writing a simple user space driver from scratch for a 10 Gbit/s NIC.
 </abstract>
 <description>Packet processing in software is currently undergoing a huge paradigm shift.
-Connection speeds of 10 Gbit/s and above created new problems and operating systems couldn&#39;t keep keep up.
+Connection speeds of 10 Gbit/s and beyond created new problems and operating systems couldn&#39;t keep keep up.
 Hence, there has been a rise of frameworks and libraries working around the kernel, sometimes referred to as kernel bypass or zero copy (the latter is a misnomer). Examples are DPDK, Snabb, netmap, XDP, pf_ring, and pfq.
-These new frameworks break with all traditional APIs and present new paradigms.
+The first part of the talk looks at the background and performance of the kernel network stack and what changes with these new frameworks.
+They break with all traditional APIs and present new paradigms.
 For example, they usually provide an application exclusive access to a network interface and exchange raw packets with the app.
 There are no sockets, they don&#39;t even offer a protocol stack.
 Hence, they are mostly used for low-level packet processing apps: routers, (virtual) switches, firewalls, and annoying middleboxes &quot;optimizing&quot; your connection.
-These frameworks have already changed how network research is done in academia by shifting the focus from hardware to software.
+
 It&#39;s now feasible to write quick prototypes of packet processing and forwarding apps that were restricted to dedicated hardware in the past, enabling everyone to build and test high-speed networking equipment with a low budget.
-
-These concepts are slowly creeping into operating systems: FreeBSD ships with netmap today, XDP is coming to Linux, Open vSwitch can be compiled with a DPDK backend, pfSense is adopting DPDK as well, ...
-We need to look at the architecture of all of these frameworks to better understand what is coming for us.
+These concepts are slowly creeping into operating systems and software routers/switches: FreeBSD ships with netmap today, XDP is coming to Linux, Open vSwitch can be compiled with a DPDK backend, pfSense is adopting DPDK as well, ...
+We need to look at the architecture of these frameworks to better understand what is coming for us.
 Most of these frameworks build on the original drivers that have been growing in complexity: a typical driver for a 10 or 40 Gbit/s NIC is in the order of 50,000 lines of code nowadays.
-This is why it&#39;s important to have a simple driver like &lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;ixy&lt;/a&gt;: for hacking and educational purposes.
-Core functionality of the driver, like handling DMA buffers, is never far away when writing an ixy app: you typically only need to look beneath one layer to see the guts of the driver. For example, when you send out a packet you call a transmit function that directly modifies a ring buffer of DMA descriptors.
 
-ixy is a full userspace driver: you get your raw packets delivered directly into your application and the operating system doesn&#39;t even know the NIC exists.
-Userspace drivers are also very hackable, you get direct access to the full hardware in your application in userspace making it really easy to test out new features, no pesky kernel code needed.
+
+Hundreds of thousands of lines of code are involved when handling a packet in a typical operating system, and tens of thousands when using one of these new frameworks.
+Reading and understanding so much code is quite tedious, so the obvious question is: How hard can it be to implement a driver for a modern 10 Gbit/s NIC from scratch while ignoring all of the existing software layers?
+Turns out that it&#39;s not very hard: I&#39;ve written &lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;ixy&lt;/a&gt;, a user space driver for 10 Gbit/s NICs from the Intel 82599 family (X520, X540, X550) from scratch in about 1000 lines of C code.
+The second part of the talk focuses on user space drivers and the Intel 82599 architecture as it is easy to understand, has a great datasheet, and the core functionality is in the driver as opposed to a magic black-box firmware.
+
+&lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;ixy&lt;/a&gt; is a full user space driver: you get your raw packets delivered directly into your application and the operating system doesn&#39;t even know the NIC exists.
+User space drivers are also very hackable, you get direct access to the full hardware in your application in user space making it really easy to test out new features, no pesky kernel code needed.
+This is why it&#39;s important to have a simple driver like &lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;ixy&lt;/a&gt;: for hacking and educational purposes.
+Core functionality of the driver such as handling DMA buffers is never far away when writing an ixy app: you typically only need to look beneath one layer to see the guts of the driver. For example, when you send out a packet you call a transmit function that directly modifies a ring buffer of DMA descriptors.
 
 
 Check out the code of &lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;ixy on GitHub&lt;/a&gt;!
@@ -535,6 +533,7 @@ Check out the code of &lt;a href=&quot;https://github.com/emmericp/ixy&quot;&gt;
 <link href='https://github.com/emmericp/ixy'>ixy on GitHub</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/351/original/slides.pdf?1514331558'>slides.pdf</attachment>
 </attachments>
 </event>
 <event guid='544e7736-6b59-4c05-87a7-c013ef993688' id='9233'>
@@ -662,13 +661,12 @@ There are a lot of things that you can do with a formal specification: binary an
 <abstract>Did you ever want to run your own IoT cloud on your IoT devices? Or did you ever wonder what data your vacuum cleaning robot is transmitting to the vendor? Why a vacuum cleaning robot needs tcpdump?
 Nowadays IoT devices are getting more and more powerful and contain a lot of sensors. As most devices are connected directly to the vendor and transmit all data encrypted to the cloud, this may result in privacy issues. An IoT device with no internet connection lacks numerous features or is even unusable. We want to change that.
 
-We show you how to root a Xiaomi vacuum cleaning robot in order to get access to the underlying Linux operating system. Furthermore, we will have a look into the vendors cloud interface and its commands, and will show you how to de-attach the device from the cloud and connect it to your local Smart Home system. Finally, we will demonstrate how to run Smart Home software directly on the vacuum cleaning robot itself.</abstract>
+We show you how to root a Xiaomi vacuum cleaning robot in order to get access to the underlying Linux operating system(Ubuntu 14.04 LTS), &lt;b&gt;**without opening the device or tampering the warranty seals**&lt;/b&gt;. Furthermore, we will have a look into the vendors cloud interface and its commands, and will show you how to de-attach the device from the cloud and connect it to your local Smart Home system. Finally, we will demonstrate how to run Smart Home software directly on the vacuum cleaning robot itself.</abstract>
 <description>We will give you a detailed tour through the hardware and software components of the Xiaomi vacuum robot (generation 1). We will also publish a non-invasive method to get root access to your vacuum robot. 
 
 After talking about the rooting procedure, we will discuss the internals of the robot. For example, the robot uses a so called SLAM (Simultaneous Localization and Mapping) system with LIDAR (Light Detection And Ranging) and various other sensors to create maps of your apartment. These maps are used, among other things, to calculate the best cleaning path. We will show you what these maps look like and how they are stored in the robot. At the end, we will discuss which data are created and uploaded to the vendor, and why this may be a big privacy issue. We will also prove why it is a bad idea to leave IoT devices in an unconfigured state.
-
-We conclude with an overview of other interesting Smart Home devices from the vendor.</description>
-<logo></logo>
+</description>
+<logo>/system/events/logos/000/009/147/large/Unbenannt.png?1514317242</logo>
 <persons>
 <person id='7869'>Dennis Giese</person>
 <person id='6553'>DanielAW</person>
@@ -677,6 +675,7 @@ We conclude with an overview of other interesting Smart Home devices from the ve
 <link href='http://dontvacuum.me'>http://dontvacuum.me</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/367/original/34c3_Staubi-current_split_animation.pdf?1514405290'>Presentation with animations</attachment>
 </attachments>
 </event>
 <event guid='65a25dfd-56dd-4e87-a910-334e2dc25a9c' id='8762'>
@@ -781,6 +780,7 @@ Denver McNeney (&lt;A HREF=&quot;https://twitter.com/denvermcTwitter/&quot;&gt;@
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/368/original/beyermcneneyweldon_34c3_slides.pdf?1514413677'>Slides for the Presentation</attachment>
 </attachments>
 </event>
 <event guid='c7b3314c-165c-446d-963c-609922ea990f' id='8724'>
@@ -946,35 +946,33 @@ Most of the proofs performed by riscv-formal are bounded proofs, i.e. it is only
 <attachments>
 </attachments>
 </event>
-<event guid='d35c155e-7a81-4122-afff-953a545e8699' id='9282'>
+<event guid='c9ae7564-9156-4d31-9f8a-168793a1bb18' id='9027'>
 <date>2017-12-27T13:30:00+01:00</date>
 <start>13:30</start>
 <duration>00:30</duration>
 <room>Saal Clarke</room>
-<slug>34c3-9282-the_enemy</slug>
-<url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9282.html</url>
+<slug>34c3-9027-the_work_of_art_in_the_age_of_digital_assassination</slug>
+<url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9027.html</url>
 <recording>
-<license></license>
+<license>CC BY 4.0</license>
 <optout>false</optout>
 </recording>
-<title>The Enemy</title>
-<subtitle>face-to-face with combatants</subtitle>
+<title>The Work of Art in the Age of Digital Assassination</title>
+<subtitle></subtitle>
 <track>Art &amp; Culture</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>The Enemy brings you face-to-face with combatants from three conflict zones: with the Maras in Salvador, in the Democratic Republic of the Congo, and in Israel and Palestine. Their testimonies and confessions about their lives, experiences, and perspectives on war will allow you to better understand their motivations… and their humanity.</abstract>
-<description>The Enemy by Karim Ben Khelifa, a groundbreaking interactive Virtual Reality (VR) exhibition and immersive experience, makes its North American premiere at the MIT Museum. Through 360-degree imaging and recordings, participants will encounter combatants on opposite sides of conflicts in Israel/Palestine, the Congo, and El Salvador. In their own words, each will offer personal perspectives on war, including thoughts on motivations, suffering, freedom, and the future.
-
-The exhibition incorporates concepts from artificial intelligence and cognitive science-based interaction models. Conceived by acclaimed photojournalist Karim Ben Khelifa, this ambitious project was further developed during a visiting artist residency at MIT hosted by MIT’s Center for Art, Science &amp; Technology (CAST) and in collaboration with MIT Professor D. Fox Harrell.
-</description>
-<logo></logo>
+<abstract>My talk explores the interconnected nature of war and culture. It does so through the context of technology and political discourse in contemporary art. With a view from the battle fields of the Middle East, both real and imagined, I attempt to dissect how the political discourse of academia and the art world trickles down to everyday discussions. A simple word such as &quot;assassination&quot; becomes rife with racism when its etymology can be linked to anti-Muslim propaganda that originated during the Crusades. And today assassination is the primary political tool of the West to negotiate with Muslim radicals, even violating their own rules of citizenship, constitutional, and human rights protections in the process. With this backdrop, we see how the artistic works of such diverse artists such as Chris Marker, Chris Burden, Haroun Farouki, Anish Kapoor, and Banksy have evolved to reflect the political discourse of the moment. The digital advancements of the war zone, I argue, are reflected in the diametrically opposed peaceful spaces of the gallery, museum, or art house cinema. As the digital defeats analogue, the act of killing becomes disconnected from the killer, with democracies spreading thei blame over systemic failures rather than facing the reality of death.     </abstract>
+<description></description>
+<logo>/system/events/logos/000/009/027/large/Title_screen_Dig_Assassination.001.jpeg?1508057316</logo>
 <persons>
-<person id='7970'>Karim Ben Khelifa</person>
+<person id='6169'>Saud Al-Zaid</person>
 </persons>
 <links>
-<link href='http://theenemyishere.org/about'>project page</link>
+<link href='https://media.ccc.de/v/33c3-8419-the_clash_of_digitalizations'>Previous Talk</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/276/original/Title_screen_Dig_Assassination.001.jpeg?1508057420'>Title_screen_Dig_Assassination.001.jpeg</attachment>
 </attachments>
 </event>
 <event guid='0ff9c9c4-a561-4ec0-afa2-93647a740f26' id='8919'>
@@ -1043,8 +1041,10 @@ How broken is science - and what can be done to make more scientific results tru
 <person id='2462'>hanno</person>
 </persons>
 <links>
+<link href='https://betterscience.org/archives/9-Science-is-broken-talk-and-background.html'>Linklist with many more resources on the covered topics</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/354/original/scienceisbroken.pdf?1514374689'>Slides</attachment>
 </attachments>
 </event>
 <event guid='2024d7d1-4510-4371-a923-3dabdb408475' id='9030'>
@@ -1198,6 +1198,7 @@ The objective of this presentation is not to discuss the last significant decima
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/356/original/34C3_Resources_V1.pdf?1514387456'>Resources from the presentation</attachment>
 </attachments>
 </event>
 <event guid='684193b5-696e-495f-88eb-04f8d3114e01' id='8948'>
@@ -1232,6 +1233,7 @@ Democratizing novel sensing technology opens the way to better collaborations an
 <links>
 <link href='https://github.com/OpenEIT'>on Github</link>
 <link href='http://www.mindseyebiomedical.com'>Mailing List</link>
+<link href='https://docs.google.com/presentation/d/1COPSEObcGmyNp1283b9Jdc6wJNhsoylW487_qU3L-N8/edit?usp=sharing'>Open Biomedical Imaging Talk Slides</link>
 </links>
 <attachments>
 </attachments>
@@ -1316,7 +1318,7 @@ This talk strives to give some insight into the darkness of the current state of
 <optout>false</optout>
 </recording>
 <title>Doping your Fitbit</title>
-<subtitle>On Fitbit Firmware Modifications and Data Extraction</subtitle>
+<subtitle>Firmware modifications faking you fitter</subtitle>
 <track>Security</track>
 <type>lecture</type>
 <language>en</language>
@@ -1332,8 +1334,11 @@ We also release a smartphone application supporting a subset of the demonstrated
 <person id='6553'>DanielAW</person>
 </persons>
 <links>
+<link href='https://github.com/seemoo-lab/fitness-app'>fitness-app</link>
+<link href='https://github.com/seemoo-lab/fitness-firmware'>fitness-firmware</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/361/original/2017-12-27_fitbit.pdf?1514391559'>Slides</attachment>
 </attachments>
 </event>
 <event guid='79c1ee55-8004-4dcd-9282-9f7acae9c94a' id='8974'>
@@ -1375,6 +1380,7 @@ We believe a strong anonymity network is urgently needed so that individuals can
 <link href='https://panoramix-project.eu'>The Panoramix Project website</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/355/original/34c4.pdf?1514386906'>slides</attachment>
 </attachments>
 </event>
 </room>
@@ -1460,7 +1466,7 @@ Weizman’s Forensic Architecture, stunning and shocking in its critical narrati
 <optout>false</optout>
 </recording>
 <title>Squeezing a key through a carry bit</title>
-<subtitle></subtitle>
+<subtitle>No bug is small enough</subtitle>
 <track>Security</track>
 <type>lecture</type>
 <language>en</language>
@@ -1475,20 +1481,23 @@ Weizman’s Forensic Architecture, stunning and shocking in its critical narrati
 
 &lt;p&gt;We reported this to the Go team, Go 1.7.6 and 1.8.2 were issued and the vulnerability was assigned &lt;a href=&quot;https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-8932&quot;&gt;CVE-2017-8932&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;At a high level, this P-256 ScalarMult implementation processes the scalar in blocks of 5 bits. We can precompute points that trigger the bug for each (and only) 5 bit value, and submit them. When the protocol fails, we learned 5 key bits, and we move on to the next 5, Hollywood style. In about 500 submissions on average we recover the whole key.&lt;/p&gt;
+&lt;p&gt;At a high level, this P-256 ScalarMult implementation processes the scalar in blocks of 5 bits. We can precompute points that trigger the bug for each specific 5 bit value, and submit them. When the protocol fails, we learned 5 key bits, and we move on to the next 5, Hollywood style. In about 500 submissions on average we recover the whole key.&lt;/p&gt;
 
 &lt;p&gt;The precomputation involves a lot of unusable points and edge cases, but by modifying the optimized assembly implementation and generating points intelligently, we can produce a full round of points in seconds on 1000 machines (or spot instances). Each round depends on the previous ones, so must be computed live during each attack.&lt;/p&gt;
 
 &lt;p&gt;Normal ECDH does not offer an attacker multiple attempts against the same scalar, making the attack impossible. However, a variant of ECDH with a static scalar is used as a public key encryption scheme, for example in JSON Web Encryption. The attack can fully recover the private key in that scenario.&lt;/p&gt;
 
 &lt;p&gt;No bug is small enough.&lt;/p&gt;</description>
-<logo></logo>
+<logo>/system/events/logos/000/009/021/large/download.jpeg?1514390337</logo>
 <persons>
 <person id='6145'>Filippo Valsorda</person>
 </persons>
 <links>
+<link href='https://streaming.media.ccc.de/34c3/relive/9021'>ReLive</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/359/original/Paris256.pdf?1514390210'>Slide deck</attachment>
+<attachment href='/system/event_attachments/attachments/000/003/360/original/paris256.mp4?1514390210'>Demo</attachment>
 </attachments>
 </event>
 <event guid='f5245c8c-5020-4bfc-914b-b0c161ff794b' id='9034'>
@@ -1606,6 +1615,8 @@ Apple is not officially present in Iran, and does not want to get involved in fi
 <link href='https://github.com/RUB-SysSec/syntia'>code</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/362/original/slides.pdf?1514391790'>Slides</attachment>
+<attachment href='/attachments/original/missing.png'>file</attachment>
 </attachments>
 </event>
 <event guid='6588e4a4-d0ac-4082-ad9e-7a13329217ee' id='9040'>
@@ -1675,25 +1686,23 @@ In a more recent series of works !Mediengruppe Bitnik use the hacked online dati
 <start>21:15</start>
 <duration>00:30</duration>
 <room>Saal Dijkstra</room>
-<slug>34c3-8797-social_cooling</slug>
+<slug>34c3-8797-social_cooling_-_big_data_s_unintended_side_effect</slug>
 <url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/8797.html</url>
 <recording>
 <license>CC BY 4.0</license>
 <optout>false</optout>
 </recording>
-<title>Social Cooling</title>
+<title>Social Cooling - big data’s unintended side effect</title>
 <subtitle>How the reputation economy is creating data-driven conformity</subtitle>
 <track>Ethics, Society &amp; Politics</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>What does it mean to be free in a world where surveillance is the dominant business model? Behind the scenes databrokers are turning our data into thousands of scores. This digital reputation is increasingly influencing our chances to find a job, a loan or even a date. Researchers are pointing out that, as people become aware of this reputation economy, it is generating a culture where self-censorship and risk aversion are the new normal.
+<abstract>What does it mean to be free in a world where surveillance is the dominant business model? Behind the scenes databrokers are turning our data into thousands of scores. This digital reputation is increasingly influencing our chances to find a job, a loan or even a date. Researchers are pointing out that, as people become aware of this reputation economy, it is generating a culture where self-censorship and risk aversion are the new normal.</abstract>
+<description>How do we deal with these chilling effects? I suggest we take the comparison of oil and data all the way: If oil leads to global warming, then data leads to Social Cooling.
 
-How do we deal with these chilling effects? I suggest we take the comparison of oil and data all the way: if oil leads to global warming, then data leads to Social Cooling.</abstract>
-<description>What does it mean to be free in a world where surveillance is the dominant business model? More and more people are discovering that databrokers (a 200 billion dollar industry) are turning our data-trail into thousands of scores. This mostly invisible ‘digital reputation’ is starting to strongly effect our lives, influencing our chances to get a job, a cheap loan or even a nice date. 
+Social Cooling is an accessible narrative about the large scale chilling effects are starting to become visible, and whose effects countries like China are actively embracing. Here in the west studies show a rise in self-censorship and a growing culture of risk-aversion. For example, after the Snowden revelations fewer people visit Wikipedia pages about subjects like terrorism. We see doctors hesitating to operate on patients because a death will lower their score.
 
-As awareness spreads people are changing their behavior; studies show a rise in self-censorship and a growing culture of risk-aversion. For example, after the Snowden revelations fewer people visit Wikipedia pages about subjects like terrorism. We see doctors hesitating to operate on patients because a death will lower their score. China is embracing it: in 2020 all Chinese citizens will receive a ‘social credit score’ that basically reflects how well behaved they are, and that will affect every part of their life.
-
-This is the true cost of &#39;free&#39;: machine learning is mapping our weaknesses, and behavioral psychology is amplifying social pressure, creating powerful chilling effects and strong incentives to conform. I believe that as oil lead to Global Warming, data leads to Social Cooling. This comparison is not meant to scare, but to give us hope: our move away from oil offers us a valuable blueprint on how to deal with this issue. In this talk we&#39;ll go into the narratives we need. In a data-driven world, a good meme can be the best hack.</description>
+This comparison is not meant to scare, but to give us hope: our move away from oil offers us a valuable blueprint on how to deal with this issue. In this talk we’ll go into the narratives we need. In a data-driven world, a good story can still be the best hack.</description>
 <logo>/system/events/logos/000/008/797/large/socialcooling-ccc.png?1512667444</logo>
 <persons>
 <person id='7199'>Tijmen Schep</person>
@@ -1726,7 +1735,7 @@ This is the true cost of &#39;free&#39;: machine learning is mapping our weaknes
 In this paper, we explore vulnerabilities in both the design and implementation of mobile bootloaders. We examine bootloaders from four popular manufacturers, and discuss the standards and design principles that they strive to achieve. We then propose BootStomp , a multi-tag taint analysis resulting from a novel combination of static analyses and dynamic symbolic execution, designed to locate problematic areas where input from an attacker in control of the OS can compromise the bootloader’s execution, or its security features. Using our tool, we find six previously-unknown vulnerabilities (of which five have been confirmed by the respective vendors), as well as rediscover one that had been previously reported. Some of these vulnerabilities would allow an attacker to execute arbitrary code as part of the bootloader (thus compromising the entire chain of trust), or to perform permanent denial-of-service attacks. Our tool also identified two bootloader vulnerabilities that can be leveraged by an attacker with root privileges on the OS to unlock the device and break the CoT. We conclude by proposing simple mitigation steps that can be implemented by manufacturers to safeguard the bootloader and OS from all of the discovered attacks, using already-deployed hardware features.</description>
 <logo></logo>
 <persons>
-<person id='8001'>Audrey</person>
+<person id='8001'>Audrey Dutcher</person>
 </persons>
 <links>
 <link href='https://github.com/ucsb-seclab/BootStomp.'>BootStomp</link>
@@ -1771,6 +1780,7 @@ I will explain BGP, the protocol that knits the internet together, also covering
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/352/original/bgp_and_the_rule_of_custom.pdf?1514368982'>bgp_and_the_rule_of_custom.pdf</attachment>
 </attachments>
 </event>
 <event guid='991aceeb-d25f-4f59-9317-bf438775a215' id='8998'>
@@ -1778,36 +1788,36 @@ I will explain BGP, the protocol that knits the internet together, also covering
 <start>23:30</start>
 <duration>01:00</duration>
 <room>Saal Dijkstra</room>
-<slug>34c3-8998-the_divine_computer_science_die_gottliche_informatik</slug>
+<slug>34c3-8998-die_gottliche_informatik_the_divine_computer_science</slug>
 <url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/8998.html</url>
 <recording>
 <license>CC BY 4.0</license>
 <optout>false</optout>
 </recording>
-<title>The divine Computer Science / Die göttliche Informatik</title>
-<subtitle>Computer science nicely solves formally modelled problems – now it is believed to solve everything else too / Die Informatik löst formale (mathematisch modellierbare) Probleme ganz vorzüglich – doch nun soll sie alle anderen Probleme auch noch lösen</subtitle>
+<title>Die göttliche Informatik / The divine Computer Science</title>
+<subtitle>Die Informatik löst formale (mathematisch modellierte) Probleme ganz vorzüglich – doch nun soll sie alle anderen Probleme auch noch lösen / Computer science nicely solves formally modelled problems – now it is believed to solve everything else too</subtitle>
 <track>Ethics, Society &amp; Politics</track>
 <type>lecture</type>
-<language>en</language>
-<abstract>Computer science seems to be the new divine element that can solve climate change, crime, our lack of knowledge about the brain, global terror, urban traffic, our energy issues and world poverty; with blockchain, with artificial intelligence, with the cloud and big data. But to what extent is computer science even able to address such problems of high social relevance? In this lecture an attempt will be made to reconcile parts of the huge wish list to computer science with its actual current possibilities and to include the economic motivations and conditions.
+<language>de</language>
+<abstract>Die Informatik ist scheinbar das neue Göttliche, das den Klimawandel, die Kriminalität, unser fehlendes Wissen über das Gehirn, den globalen Terror, dichter werdenden Stadtverkehr, die Energieprobleme und die Armut der Welt lösen kann; und zwar mit der Blockchain, mit künstlicher Intelligenz, mit der Cloud und mit Big-Data. Doch inwiefern ist die Informatik überhaupt in der Lage, derartige Probleme hoher gesellschaftlicher Relevanz anzugehen? In diesem Vortrag soll versucht werden, Teile der riesigen Wunschliste an die Informatik mit ihren tatsächlichen aktuellen Möglichkeiten in Einklang zu bringen sowie die ökonomischen Motivationen und Rahmenbedingungen einzubeziehen.
 
-&lt;span style=&quot;color:grey;&quot;&gt;Die Informatik ist scheinbar das neue Göttliche, das den Klimawandel, die Kriminalität, unser fehlendes Wissen über das Gehirn, den globalen Terror, dichter werdenden Stadtverkehr, die Energieprobleme und die Armut der Welt lösen kann; und zwar mit der Blockchain, mit künstlicher Intelligenz, mit der Cloud und mit Big-Data. Doch inwiefern ist die Informatik überhaupt in der Lage, derartige Probleme hoher gesellschaftlicher Relevanz anzugehen? In diesem Vortrag soll versucht werden, Teile der riesigen Wunschliste an die Informatik mit ihren tatsächlichen aktuellen Möglichkeiten in Einklang zu bringen sowie die ökonomischen Motivationen und Rahmenbedingungen einzubeziehen.&lt;/span&gt;</abstract>
-<description>EN (&lt;a href=&quot;#langderr&quot;&gt;DE below&lt;/a&gt;): The well-known computer pioneer and society critic Prof. Dr. Joseph Weizenbaum once said, &quot;Once upon a time, a problem was presented to the computer after it was understood. Today it&#39;s the other way around.&quot; Reasons for this seem to be an almost magical belief in technology, a strange misunderstanding of the functioning of today&#39;s computers, an ever-increasing financial pressure on the public sector and a widespread, technically-reduced – one could almost say &#39;cybernetic&#39; – world view and concept of what&#39;s human.
+&lt;span style=&quot;color:grey;&quot;&gt;Computer science seems to be the new divine element that can solve climate change, crime, our lack of knowledge about the brain, global terror, urban traffic, our energy issues and world poverty; with blockchain, with artificial intelligence, with the cloud and big data. But to what extent is computer science even able to address such problems of high societal relevance? In this lecture an attempt will be made to reconcile parts of the huge wish list to computer science with its actual current possibilities and to include the economic motivations and conditions.&lt;/span&gt;</abstract>
+<description>&lt;strong&gt;DE&lt;/strong&gt; (&lt;a href=&quot;#langderr&quot;&gt;EN below&lt;/a&gt;): Der bekannte Computerpionier und Gesellschaftskritiker Prof. Dr. Joseph Weizenbaum sagte einst sinngemäß: „Früher übergab man ein Problem dem Computer, wenn man es verstanden hatte. Heute ist es anders herum“. Gründe dafür scheinen eine geradezu magische Technikgläubigkeit, ein merkwürdiges Missverständnis der Funktionsweise heutiger Computer, ein immer größer werdender finanzieller Druck auf die öffentliche Hand und ein weit verbreitetes, technisch-reduziertes – man könnte fast sagen &#39;kybernetisches&#39; – Welt- und Menschenbild zu sein.
+
+Da gewinnt Googles künstliche Intelligenz Alpha-Go gegen den professionellen südkoreanischen Go-Spieler Lee Sedol und schon wird der Abgesang auf das menschliche Gehirn angestimmt. Doch dass Sedol für das Match ein paar Tassen Kaffee verstoffwechselte, aber Alpha-Go die Energie einer Kleinstadt, zeigt, dass die Lage geringfügig komplizierter ist. Ähnliche fehlleitende Ungenauigkeiten finden sich auch bezüglich der berühmten Geheimsprache der Facebook-Bots bis hin zu den Möglichkeiten von „smart contracts“ in der Blockchain. Dies sind Beispiele, wie missverstandene Computerfähigkeiten und Fehlzuschreibungen eine tatsächlich sinnvolle Diskussion über den Nutzen weltweit vernetzter Computersysteme verhindern.
+
+Derartige Diskussionen sind jedoch mitnichten rein akademisch oder philosophisch, sondern in der Wirkung gesellschaftlich hoch brisant. Denn wie an der aktuellen Predictive-Policing-Thematik zu erkennen ist, erzeugt der Glaube an die Überlegenheit der Technik nunmehr harte soziale Realitäten für die betroffenen &#39;Datenopfer&#39;, aber keine nennenswerten positiven Ergebnisse für die Sicherheit. Gleiches gilt für die automatisierte, sogenannte „intelligente“, Videoüberwachung mit Verhaltenserkennung, die perspektivisch flächendeckend in Deutschland angedacht ist: der Glaube an solche Systeme vergrößert zwar immens den Kassenstand der Hersteller und Anbieter, aber verkleinert in gleicher Weise die Freiheit und Freiräume eines jeden Menschen im öffentlichen Raum. Genau das sind die tatsächlichen Auswirkungen eines unwidersprochenen, blinden Computeroptimismus&#39;, der zudem von finanziellen Motivationen getrieben ist und in der Folge kontinuierlich unsere Gesellschaft umprägt.
+
+Für eine Digitalisierung im Sinne der Freiheit und der gesellschaftlichen Weiterentwicklung müssen die Erwartungen an die Informatik folglich neu justiert werden und das im Zusammenhang mit wirtschaftlichen und politischen Machtverhältnissen.
+
+
+&lt;span style=&quot;color:grey;&quot;&gt;&lt;strong id=&quot;langderr&quot;&gt;EN&lt;/strong&gt;: The well-known computer pioneer and society critic Prof. Dr. Joseph Weizenbaum once said, &quot;Once upon a time, a problem was presented to the computer after it was understood. Today it&#39;s the other way around.&quot; Reasons for this seem to be an almost magical belief in technology, a strange misunderstanding of the functioning of today&#39;s computers, an ever-increasing financial pressure on the public sector and a widespread, technically-reduced – one could almost say &#39;cybernetic&#39; – world view and concept of what&#39;s human.
 
 Not only since Google&#39;s artificial intelligence Alpha-Go won against the professional South Korean Go player Lee Sedol many techno-optimists celebrate the inferiority of the human brain. But Sedol metabolized a few cups of coffee for the match whereas Alpha-Go needed the energy of a small town; this shows that the matter is slightly more complicated. Similar misleading inaccuracies can be found regarding the &#39;famous&#39; secret language of the Facebook bots or regarding the possibilities of &quot;smart contracts&quot; in the blockchain. These are examples of how misunderstood computer abilities and faulty ascription prevent a meaningful debate on the benefits of globally networked computer systems.
 
 However, such discussions are by no means purely academic or philosophical; they are socially highly explosive in their effect. As can be seen from the current addoption of Predictive Policing, the belief in the superiority of technology now creates harsh social realities for the affected &#39;data victims&#39;, but no noteworthy positive results for actual public security. The same applies to the automated &quot;intelligent&quot; video surveillance systems with behavioral detection – probably rolled-out nationwide in Germany: the belief in such systems immensely increases the cash influx of manufacturers and suppliers, but at the same time it reduces the freedom of each person in public space. These are the actual effects of an unchallenged &#39;blind computer optimism&#39; driven by financial motivations which consequently transforms our society.
 
-For a Digitalization supporting freedom and social development, expectations of information technology must be readjusted in the context of economic and political power relations.
-
-
-&lt;span style=&quot;color:grey;&quot;&gt;&lt;strong id=&quot;langderr&quot;&gt;DE&lt;/strong&gt;: Der bekannte Computerpionier und Gesellschaftskritiker Prof. Dr. Joseph Weizenbaum sagte einst sinngemäß: „Früher übergab man ein Problem dem Computer, wenn man es verstanden hatte. Heute ist es anders herum“. Gründe dafür scheinen eine geradezu magische Technikgläubigkeit, ein merkwürdiges Missverständnis der Funktionsweise heutiger Computer, ein immer größer werdender finanzieller Druck auf die öffentliche Hand und ein weit verbreitetes, technisch-reduziertes – man könnte fast sagen &#39;kybernetisches&#39; – Welt- und Menschenbild zu sein.
-
-Da gewinnt Googles künstliche Intelligenz Alpha-Go gegen den professionellen südkoreanischen Go-Spieler Lee Sedol und schon wird der Abgesang auf das menschliche Gehirn angestimmt. Doch dass Sedol für das Match ein paar Tassen Kaffee verstoffwechselte, aber Alpha-Go die Energie einer Kleinstadt, zeigt, dass die Lage geringfügig komplizierter ist. Ähnliche fehlleitende Ungenauigkeiten finden sich auch bezüglich der berühmten Geheimsprache der Facebook-Bots bis hin zu den Möglichkeiten von „smart contracts“ in der Blockchain. Dies sind Beispiele, wie missverstandene Computerfähigkeiten und Fehlzuschreibungen eine tatsächlich sinnvolle Diskussion über den Nutzen weltweit vernetzter Computersysteme verhindern.
-
-Derartige Diskussionen sich jedoch mitnichten rein akademisch oder philosophisch, sondern in der Wirkung gesellschaftlich hoch brisant. Denn wie an der aktuellen Predictive-Policing-Thematik zu erkennen ist, erzeugt der Glaube an die Überlegenheit der Technik nunmehr harte soziale Realitäten für die betroffenen &#39;Datenopfer&#39;, aber keine nennenswerten positiven Ergebnisse für die Sicherheit. Gleiches gilt für die automatisierte, sogenannte „intelligente“, Videoüberwachung mit Verhaltenserkennung, die perspektivisch flächendeckend in Deutschland angedacht ist: der Glaube an solche Systeme vergrößert zwar immens den Kassenstand der Hersteller und Anbieter, aber verkleinert in gleicher Weise die Freiheit und Freiräume eines jeden Menschen im öffentlichen Raum. Genau das sind die tatsächlichen Auswirkungen eines unwidersprochenen, blinden Computeroptimismus&#39;, der zudem von finanziellen Motivationen getrieben ist und in der Folge kontinuierlich unsere Gesellschaft umprägt.
-
-Für eine Digitalisierung im Sinne der Freiheit und der gesellschaftlichen Weiterentwicklung müssen die Erwartungen an die Informatik folglich neu justiert werden und das im Zusammenhang mit wirtschaftlichen und politischen Machtverhältnissen.&lt;/span&gt;</description>
+For a Digitalization supporting freedom and social development, expectations of information technology must be readjusted in the context of economic and political power relations.&lt;/span&gt;</description>
 <logo>/system/events/logos/000/008/998/large/Clarion_Alley_by_Oren_Rozen.jpg?1514026545</logo>
 <persons>
 <person id='1642'>Rainer Rehak</person>
@@ -2361,6 +2371,7 @@ For example: Currently manufacturers take care primarily of their business to br
 <link href='https://shroombab.at/2017/08/10/sha2017-my-talk-best-of-iot-fails/'>Blog Entry about &quot;Best of IoT Fails&quot;</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/348/original/Internet_of_FAILS_v2.pdf?1514282002'>Slides for the talk (final)</attachment>
 </attachments>
 </event>
 <event guid='2dd1ed02-2a4f-4c15-93e5-6d171fea74df' id='9297'>
@@ -2655,6 +2666,7 @@ be helpful for this talk, but is not required.
 <link href='https://github.com/dsprenkels/sss#shamir-secret-sharing-library'>SSS on GitHub</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/358/original/sss-34c3.pdf?1514387597'>Daan Sprenkels - We Should Share Our Secrets</attachment>
 </attachments>
 </event>
 <event guid='be19fbe3-e825-4e67-93f9-a6aeda2e31af' id='9237'>
@@ -2971,6 +2983,7 @@ rely on randomized virtual addresses as a building block.
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/375/original/CCC_Talk_-_Uncovering_Vulnerabilities_in_Hoermann_BiSecur.pdf?1514458044'>Uncovering Vulnerabilities in Hoermann BiSecur</attachment>
 </attachments>
 </event>
 </room>
@@ -3001,6 +3014,8 @@ rely on randomized virtual addresses as a building block.
 <link href='http://www.chootka.com/'>http://www.chootka.com/</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/370/original/visceral-systems.pdf?1514451396'>visceral-systems.pdf</attachment>
+<attachment href='/attachments/original/missing.png'>file</attachment>
 </attachments>
 </event>
 <event guid='57d3ba9e-49c8-440e-a30a-c0297204848a' id='8814'>
@@ -3061,6 +3076,7 @@ Hierüber möchte ich euch gerne Näheres erzählen :)</description>
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/373/original/BOB3_34C3_2017.pdf?1514452417'>Folien Digitale Bildung in der Schule</attachment>
 </attachments>
 </event>
 <event guid='1d7b2355-60b1-453c-bf0e-64228466d2cc' id='8953'>
@@ -3079,11 +3095,10 @@ Hierüber möchte ich euch gerne Näheres erzählen :)</description>
 <track>Ethics, Society &amp; Politics</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>Technology is perceived as a danger. In German nursing sciences the dominant position on emergent technologies demands the removal of machines from caring environments („Entmaschinisierung“). In contrast to this, European research policy heavily focus on developing new health and social technologies to solve societal issues like a skill shortage in nursing. In this talk we first give an overview on main arguments against digital technologies in care with an example of a current research project in the field of Augmented Reality in care work. Secondly, we argue that those luddite positions in nursing science are losing touch with their subject’s reality. Consequently, they are about to miss another chance to establish their sphere of influence.</abstract>
-<description>In the first part of this talk we introduce current positions of German nursing science and German nurses on emergent technologies. For German nursing scientists the main element of nursing is the relationship between the patient and their nurse. One central aspect of this relationship is communication. Corporal [“Leib”] perception is stressed as well as implicit or tacit knowledge. Nursing experts are presumed to use these kinds of knowledge to guide their action. It is argued that digitalization stands in the way of using these kinds of non-discursive knowledge, as digital technology is only able to display discursive knowledge. Thus, care logic and logic of technology are described as incommensurable. 
+<abstract>In German nursing science the dominant position on emergent technologies demands the removal of machines from caring environments („Entmaschinisierung“). In contrast to this, European research policy heavily focus on developing new health and social technologies to solve societal issues like a skill shortage in nursing. Thinking about technology in nursing science cannot but be conflicted. In this talk we first expose requirements for particularly conceptualizing the application of technological systems in care work settings. Further we will give an overview on main arguments against digital technologies in care with an example of a current research project in the field of Augmented Reality in care work. </abstract>
+<description>In the first part of this talk we will introduce current positions of German nursing science and German nurses on emergent technologies. For German nursing scientists the main element of nursing is the relationship between the patient and their nurse. One central aspect of this relationship is communication. Corporal [“Leib”] perception is stressed as well as implicit or tacit knowledge. Nursing experts are presumed to use these kinds of knowledge to guide their action. It is argued that digitalization stands in the way of using these kinds of non-discursive knowledge, as digital technology is only able to display discursive knowledge. Thus, care logic and logic of technology are described as incommensurable. 
 Nevertheless, usage of electronic health records is increasing. Furthermore, a wide range of prototypes are developed as they are conceived as solutions regarding existing problems at least from certain points of view. E.g. Smart Devices can be used to support blood sampling or the documentation process. We will show you a prototype which is part of our research project, to offer you the possibility to get your own ideas of advantages and disadvantages.
-In the second part of this talk the theoretical premises of main arguments against technology will be revealed and a counterperspective will be introduced. The progress of biotechnologies in some way stimulates a slowly growing mutual interest of the humanities and natural sciences. Notwithstanding in nursing science there is still a hostile attitude against if not a categorical denial of technologies ranging from robotic systems to smart home technologies and even the PC. Emergent technologies are mistakenly seen as strongly (and only) bound to medicine and hence being hopelessly fought. On closer consideration it becomes obvious that the theoretical premises of this perspective is deeply linked to the idea of human exceptionalism. In their (neo-) humanistic vindication nursing scientists seek to set themselves free from the influence of medicine as a dominant discipline. In doing so technology becomes the uncanny “other”. For it is a question of perspective a brief glimpse into the idea of Gilbert Simondon on the “open machine” will be offered as a possibility to rethink the relation between humans and technology. 
-</description>
+In the second part of this talk the theoretical premises of main arguments against technology will be revealed and a counterperspective will be introduced. The progress of biotechnologies in some way stimulates a slowly growing mutual interest of the humanities and natural sciences. Notwithstanding in nursing science there is still a hostile attitude against if not a categorical denial of technologies ranging from robotic systems to smart home technologies and even the PC. Emergent technologies are mistakenly seen as strongly (and only) bound to medicine and hence being hopelessly fought. On closer consideration it becomes obvious that the theoretical premises of this perspective are deeply linked to the idea of human exceptionalism. In their (neo-) humanistic vindication nursing scientists seek to set themselves free from the influence of medicine as a dominant discipline. </description>
 <logo></logo>
 <persons>
 <person id='7748'>AKO</person>
@@ -3092,6 +3107,7 @@ In the second part of this talk the theoretical premises of main arguments again
 <links>
 </links>
 <attachments>
+<attachment href='/attachments/original/missing.png'>file</attachment>
 </attachments>
 </event>
 <event guid='c02f6777-5e55-46ca-8d60-1810a8d5f3c7' id='9196'>
@@ -3142,7 +3158,7 @@ I&#39;m going to introduce DTrace and its D language by digging down into the in
 <track>Ethics, Society &amp; Politics</track>
 <type>lecture</type>
 <language>de</language>
-<abstract>Gleich in drei Gesetzen drohen Netzsperren. Staatstrojaner und Massenüberwachung bis ins WLAN sind mit der Einführung der Überwachungsgesetze BÜPF und NDG vorgesehen. E-Voting soll auf Biegen und Brechen durchgesetzt werden. Nur garantierte Netzneutralität lässt weiter auf sich warten. Im Vortrag versuchen wir, Einsichten in die netzpolitischen Auseinandersetzungen in der Schweiz zu geben und Handlungsmöglichkeiten aufzuzeigen.</abstract>
+<abstract>Gleich in drei Gesetzen drohen Netzsperren. Staatstrojaner und Massenüberwachung bis ins WLAN sind mit der Einführung der Überwachungsgesetze BÜPF und NDG vorgesehen. E-Voting soll auf Biegen und Brechen durchgesetzt werden. Nur garantierte Netzneutralität lässt weiter auf sich warten. Im Vortrag versuchen wir, Einsichten in die aktuellen netzpolitischen Auseinandersetzungen in der Schweiz zu geben und Handlungsmöglichkeiten aufzuzeigen.</abstract>
 <description>Folgende Themen möchten wir aufgreifen und gemeinsam einen Blick in die Zukunft werfen:
 &lt;ul&gt;
  	&lt;li&gt;Auswirkungen des neuen BÜPF: Eine Einschätzung für die Praxis ab dem 1.3.2018&lt;/li&gt;
@@ -3157,7 +3173,7 @@ Im Anschluss an den Vortrag findet eine weiterführende Diskussions- und Fragese
 <persons>
 <person id='7723'>Kire</person>
 <person id='6351'>Patrick Stählin</person>
-<person id='6379'>Hakuna MaMate</person>
+<person id='8033'>Martin Steiger</person>
 </persons>
 <links>
 </links>
@@ -3886,7 +3902,8 @@ The creation of a custom fitted, self administered payment model.
 We have liberated devices controlling the production of heat (NBE Pellet system, Kamstrup meter systems) and made devices (MeterLogger) used for metering heat and electricity consumption using open source. We are in the process of bringing easy readable consumption data to the focus of christiania citizens - for all of us to take climate action.</description>
 <logo>/system/events/logos/000/008/989/large/IMG_20171014_174810_2.jpg?1508009000</logo>
 <persons>
-<person id='7798'>“Nabovarme” - Freetown Christiania´s digitally controlled/surveyed heating system. 350 users</person>
+<person id='7798'>Johannes Valbjorn</person>
+<person id='8031'>Emmerik</person>
 </persons>
 <links>
 <link href='https://docs.google.com/document/d/1HbU9BQdX9aDQFFhaIE-LHPEXsxjTXKCthxqVx95gIMk/edit?usp=drivesdk'>Nabovarme application document (Google docs)</link>
@@ -3946,26 +3963,34 @@ OONI, the Open Observatory of Network Interference is a project for documenting 
 <type>lecture</type>
 <language>en</language>
 <abstract>Space Solar Power station, such as SPS Alpha, could overcome some issues that renewable energy plants on Earth suffer of structural basis when challenges such as energy transfer from orbit to Earth are solved. But will this solve the Earth&#39;s problems in a peaceful way?</abstract>
-<description>The increasing demand on energy seems to be one of the greatest challenges for modern society. [1,2] Power generation approaches of the 20th century, such as coal, oil, or nuclear plants come with certain issues limiting the scalability and/or questioning even the approach itself since they may harm nature and environment on a longterm time scale. [3]
-Renewable energy generated e.g. with solar cells, wind mills, or tidal stations are on the rise but they usually depend to certain locations, weather, storage capabilities, and in some cases even on political climates. [4]
-Space based Solar Power generation [5,6] overcomes some of these issues: solar cells in orbit are independent of atmospheric influences and weather (e.g. clouds), solar harvesting satellites can be placed in orbit so they always face sun and generate power continuously, and there is enough space to scale the plants in order to serve the power demands. Solar power is an infinite power source (at least in the time scale for humanity) 
+<description>The increasing demand on energy seems to be one of the greatest challenges for modern society. [1,2] Power generation approaches of the 20th century, such as coal, oil, or nuclear plants come with certain issues limiting the scalability and/or questioning even the approach itself since they may harm nature and environment on a longterm time scale. 
+Renewable energy generated e.g. with solar cells, wind mills, or tidal stations are on the rise but they usually depend to certain locations, weather, storage capabilities, and in some cases even on political climates. [3]
+Space based Solar Power generation [4,5] overcomes some of these issues: solar cells in orbit are independent of atmospheric influences and weather (e.g. clouds), solar harvesting satellites can be placed in orbit so they always face sun and generate power continuously, and there is enough space to scale the plants in order to serve the power demands. Solar power is an infinite power source (at least in the time scale for humanity) 
 The bottle neck with this approach, however, is the transfer of the power from orbit to Earth. But if solved, this technology can supply power to locations on Earth, that are remotely located, that lack other power generation capabilities (e.g. due to a natural catastrophe), or that come with varying demands on power consumption. 
-Some questions still remain: Is it possible to transfer power wireless over such a long distance with a sufficient efficiency? [7] How would that influence life on Earth? And who is in charge of the orbital death laser?!?
+Some questions still remain: Is it possible to transfer power wireless over such a long distance with a sufficient efficiency? [6-8] How would that influence life on Earth? And who is in charge of the orbital death laser?!?
 
 [1] https://data.worldbank.org/indicator/EG.USE.ELEC.KH.PC
 [2]https://www.theguardian.com/environment/2017/aug/28/electricity-demand-in-southern-europe-to-soar-with-air-con-say-climate-scientists  (http://www.pnas.org/content/114/38/E7910)
-[3] ...
-[4] https://unearthed.greenpeace.org/2015/12/23/three-problems-transitioning-renewables-how-to-fix/     
-[5] https://en.wikipedia.org/wiki/Space-based_solar_power 
-[6] https://www.nasa.gov/directorates/spacetech/niac/mankins_sps_alpha.html
-[7] https://en.wikipedia.org/wiki/Wireless_power_transfer
+[3] https://unearthed.greenpeace.org/2015/12/23/three-problems-transitioning-renewables-how-to-fix/     
+[4] https://en.wikipedia.org/wiki/Space-based_solar_power 
+[5] https://www.nasa.gov/directorates/spacetech/niac/mankins_sps_alpha.html
+[6] https://en.wikipedia.org/wiki/Wireless_power_transfer
+[7] https://www.cio.com/article/3129027/space/wireless-power-systems-could-one-day-beam-electricity-from-space.html
+[8] https://www.rfglobalnet.com/doc/japanese-scientists-develop-long-distance-wireless-power-transmission-0001
+
+
 </description>
-<logo></logo>
+<logo>/system/events/logos/000/008/869/large/Mankins2.jpg?1514415500</logo>
 <persons>
 <person id='4115'>anja</person>
 <person id='7954'>sjunk</person>
 </persons>
 <links>
+<link href='https://www.google.com/patents/US3781647'>Glaser Patent 1973</link>
+<link href='https://www.nasa.gov/directorates/spacetech/niac/mankins_sps_alpha.html'> SPS Alpha report 2012</link>
+<link href='https://spectrum.ieee.org/green-tech/solar/how-japan-plans-to-build-an-orbital-solar-farm '>Japanese Approach</link>
+<link href='https://repository.exst.jaxa.jp/dspace/handle/a-is/46691'>JAXA report of 2004</link>
+<link href='https://spacejournal.ohio.edu/issue18/cast.html'>Chinese CAST MR-SPS Approach</link>
 </links>
 <attachments>
 </attachments>
@@ -4221,55 +4246,6 @@ In this talk I will describe the range of groups involved in data preservation e
 <attachments>
 </attachments>
 </event>
-<event guid='2df297d8-7bfc-40d1-bd9e-85c9a1cc455d' id='8967'>
-<date>2017-12-29T23:15:00+01:00</date>
-<start>23:15</start>
-<duration>00:30</duration>
-<room>Saal Borg</room>
-<slug>34c3-8967-digitalization_and_the_environment</slug>
-<url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/8967.html</url>
-<recording>
-<license>CC BY 4.0</license>
-<optout>false</optout>
-</recording>
-<title>Digitalization and the environment</title>
-<subtitle>Why digitalization of the economy is not necessarily good for the planet and how we can change that</subtitle>
-<track>Science</track>
-<type>lecture</type>
-<language>en</language>
-<abstract>In this talk, I address the question whether digitalization is likely to help decoupling economic growth from the environmental impacts of economic activities. In a first step, I summarize the literature on the impact of digitalization on growth and the environment. In a second step, I point out several concepts, in particular sufficiency, open source and commons, that may help to reconcile digitalization and environmental sustainability.</abstract>
-<description>Digitalization is said to revolutionize not only industrial production but almost any aspect of our lives: Digital devices change the way we consume (online-shopping), we communicate (social media), our mobility forms (car and bike sharing, autonomous cars) and the way we organize our communities (smart cities). At the same time, environmental questions are barely discussed. There are mostly vague statements that industry 4.0 will make the economy more sustainable by increasing resource- and energy-efficiencies (Huber, 2013). However, in recent years a number of scientific investigations have shed more light on the issue. This talk summarizes these findings and thereby addresses the issue, whether digitalization can actually help to reduce the environmental impact of our economic activities. The central question is: Will the digitalization of our economy help to decouple economic growth and environmental impact?
-One of the central promises of digitalization is economic growth. In Germany, the discourse on digitalization is driven by influential industries, who have come up with the term Industrie 4.0 (engl.: industry 4.0). It implies the application of new digital technologies in production processes, in particular to organize production with less human labor. In other words: It means to increase labor productivity. If this development is only half as revolutionary as promised, labor productivity will rise significantly. One possible scenario is that these increases in productivity are used for a new phase of economic growth. In case of full-time employment, large increases in labor productivity imply high growth in GDP. As Niko Paech (2017) and Tilman Santarius (2017) have argued, this puts the question of decoupling economic growth from environmental throughput back on the agenda.
-It appears to be improbable that digitalization will allow for a sufficient decoupling under the economic regime that exists. As a reminder: The increases in resource-efficiency need to be speeded up from a current average of 1.5% to 4.4%, to reach climate goals. And even that would only keep us under 2 °C (and not 1.5 °C as recommended by many environmental scientists) to a probability of 66% (Antal &amp; Bergh, 2016). But even if sufficient decoupling is unlikely, can it help to achieve at least absolute decoupling (that is, at least some absolute reductions in environmental impacts)?
-Research so far shows a positive relationship between digitalization, energy use and economic growth. The (preliminary) analysis is that digitalization simultaneously leads to economic growth (as it leads to higher labor productivity) and to more energy use (because ICTs need energy to work) (Cardona, Kretschmer, &amp; Strobel, 2013; Salahuddin &amp; Alam, 2016). And even if it was possible to use digitalization to decouple economic growth from greenhouse gases: It would probably lead to other environmental problems, in particular regarding resource extraction (Pilgrim, Groneweg, &amp; Reckordt, 2017).
-This does not mean that digitalization has to be negative in general when it comes to environmental sustainability. The transition to 100% renewables is difficult to imagine without digital technologies (Zimmermann, Wolf, &amp; Baum, 2016). And digitalization opens up many opportunities to increase resource- und energy efficiencies. However, the current economic structure, including its continuous generation of economic growth, countervails such positive features. 
-The question is therefore, how to use the opportunities of digitalization while preventing its adverse environmental effects. A key concept is sufficiency. It is well-known in environmental sciences. Sufficiency implies that new technologies are combined with new patterns of individual behaviour, in order to achieve better environmental results (Jenny, 2014). Sufficiency can also be applied to digitalization, in particular regarding the design of information and communication technologies and concerning the data-intensity of software. However, designs of hardware and software are tightly related to the question, who develops them and for what purpose. Here, the concepts of commons (Helfrich &amp; Bollier, 2012), open source (Gibb, 2014) and collaborative platforms (Scholz, 2016) may be good starting points to steer towards a type of digitalization that is truly sustainable. 
-
- 
-Bibliography
-Antal, M., &amp; Bergh, J. C. J. M. V. D. (2016). Green growth and climate change: conceptual and empirical considerations. Climate Policy, 16(2), 165–177. https://doi.org/10.1080/14693062.2014.992003
-Cardona, M., Kretschmer, T., &amp; Strobel, T. (2013). ICT and productivity: conclusions from the empirical literature. Information Economics and Policy, 25(3), 109–125. https://doi.org/10.1016/j.infoecopol.2012.12.002
-Gibb, A. (2014). Building open source hardware: DIY manufacturing for hackers and makers. Pearson Education.
-Helfrich, S., &amp; Bollier, D. (Eds.). (2012). Commons. Für eine neue Politik jenseits von Markt und Staat. Bielefeld: Transcript Verlag.
-Huber, A. S. (2013). Das Ziel Digital Enterprise: die professionelle digitale Abbildung von Produktentwicklung und Produktion. In U. Sendler (Ed.), Industrie 4.0 (pp. 111–124). Springer Berlin Heidelberg. https://doi.org/10.1007/978-3-642-36917-9_7
-Jenny, A. (2014). Suffizienz auf individueller Ebene. Literaturanalyse zu psychologischen Grundlagen der Suffizienz (Zwischenbericht No. 18). Zürich: Forschungsprojekt FP-1.7.
-Paech, N. (2017). The Destructive Dream of Progress. Retrieved October 14, 2017, from https://www.degrowth.info/en/2017/01/the-destructive-dream-of-progress/
-Pilgrim, H., Groneweg, M., &amp; Reckordt, M. (2017). Ressourcenfluch 4.0: Die sozialen und ökologischen Auswirkungen von Industrie 4.0 auf den Rohstoffsektor. Berlin.
-Salahuddin, M., &amp; Alam, K. (2016). Information and Communication Technology, electricity consumption and economic growth in OECD countries: A panel data analysis. International Journal of Electrical Power &amp; Energy Systems, 76, 185–193. https://doi.org/10.1016/j.ijepes.2015.11.005
-Santarius, T. (2017). Digitalization, Efficiency and the Rebound Effect. Retrieved October 14, 2017, from https://www.degrowth.info/en/2017/02/digitalization-efficiency-and-the-rebound-effect/
-Scholz, T. (2016). Platform Cooperativism. Challenging the Corporate Sharing Economy. New York: Rosa Luxemburg Stiftung. Retrieved from http://www.rosalux-nyc.org/platform-cooperativism-2/
-Zimmermann, H., Wolf, V., &amp; Baum, D. (2016). Sechs Thesen zur Digitalisierung der Energiewende: Chancen, Risiken und Entwicklungen. Germanwatch e.V. Retrieved from https://germanwatch.org/de/download/15649.pdf
-
-</description>
-<logo></logo>
-<persons>
-<person id='7729'>Steffen Lange</person>
-</persons>
-<links>
-</links>
-<attachments>
-</attachments>
-</event>
 <event guid='c297bff4-55ca-473c-afef-0064970a47b2' id='8741'>
 <date>2017-12-30T00:00:00+01:00</date>
 <start>00:00</start>
@@ -4410,9 +4386,11 @@ We will cover the history of ideas of using code to describe electronic circuits
 <person id='6722'>Kaspar</person>
 </persons>
 <links>
-<link href='https://github.com/monostable/footwork'>Footwork</link>
+<link href='https://sourceforge.net/p/phdl/wiki/Home/'>PHDL</link>
 <link href='https://github.com/xesscorp/skidl'>SKiDL</link>
-<link href='https://monostable.github.io/electro-grammar/'>Electro Grammar Demo</link>
+<link href='https://https://github.com/dvc94ch/pycircuit'>PyCircuit</link>
+<link href='https://github.com/nturley/netlistsvg'>netlistsvg</link>
+<link href='https://monostable.github.io/electro-grammar/'>Electro Grammar</link>
 </links>
 <attachments>
 </attachments>
@@ -4781,7 +4759,7 @@ Ich werde mehrere Mikroskope mitbringen, um einiges vom oben genannten direkt au
 <optout>false</optout>
 </recording>
 <title>Holography of Wi-Fi radiation</title>
-<subtitle></subtitle>
+<subtitle>Can we see the stray radiation of wireless devices? And what would the world look like if we could?</subtitle>
 <track>Science</track>
 <type>lecture</type>
 <language>en</language>
@@ -4793,22 +4771,24 @@ Philipp Holl [1,2] and Friedemann Reinhard [2]
 
 When we think of wireless signals such as Wi-Fi or Bluetooth, we usually think of bits and bytes, packets of data and runtimes.  
 
-Interestingly, there is a second way to look at them. From a physicist&#39;s perspective, wireless radiation is just light, to be precise: coherent electromagnetic radiation. It is virtually the same as the beam of a laser, except that its wavelength is much longer (cm vs µm). 
+Interestingly, there is a second way to look at them. From a physicist&#39;s perspective, wireless radiation is just light, more precisely: coherent electromagnetic radiation. It is virtually the same as the beam of a laser, except that its wavelength is much longer (cm vs µm). 
 
-We have developed a way to visualize this radiation, providing a view of the world as it would look like for eyes sensitive to wireless radiation. 
+We have developed a way to visualize this radiation, providing a view of the world as it would look like if our eyes could see wireless radiation. 
 
 Our scheme is based on holography, a technique to record three-dimensional pictures by a phase-coherent recording of radiation in a two-dimensional plane. This technique is traditionally implemented using laser light. We have adapted it to work with wireless radiation, and recorded holograms of building interiors illuminated by the omnipresent stray field of wireless devices. In the resulting three-dimensional images we can see both emitters (appearing as bright spots) and absorbing objects (appearing as shadows in the beam). Our scheme does not require any knowledge of the data transmitted and works with arbitrary signals, including encrypted communication. 
 
-This result has several implications: it could provide a way to track wireless emitters in buildings, it could provide a new way for through-wall imaging of building infrastructure like water and power lines. As these applications are available even with encrypted communication, it opens up new questions about privacy.&quot;
+This result has several implications: it could provide a way to track wireless emitters in buildings, it could provide a new way for through-wall imaging of building infrastructure like water and power lines. As these applications are available even with encrypted communication, it opens up new questions about privacy.
 
 
 </abstract>
-<description>I am running an Emmy Noether research group at the Technical University of Munich. We have had a publication on the above result this year (P. Holl, F. Reinhard, Phys. Rev. Lett. 118, 183901 (2017), https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.118.183901) which has triggered significant attention by the media, with reports in Science, Physics Focus, Heise Online and Russia Today, among many others. I believe that it could be of interest for a wider community, as it presents a new way to think about wireless communication, and could inspire various hacking projects. </description>
-<logo></logo>
+<description></description>
+<logo>/system/events/logos/000/009/024/large/Wi-fi_Holography_-_Augmented_Reality.jpg?1514315894</logo>
 <persons>
 <person id='7822'>Friedemann Reinhard</person>
 </persons>
 <links>
+<link href='http://tinyurl.com/reinhardlab'>Our lab</link>
+<link href='https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.118.183901'>Our article (open access)</link>
 </links>
 <attachments>
 </attachments>
@@ -4918,12 +4898,9 @@ We hope to create the opportunity for you to join our research project and start
 <type>lecture</type>
 <language>en</language>
 <abstract>On October 1st the Catalan society held a referendum to decide if they wanted to stay part of the Spanish state or create an independent state. This talk will explain the internet censorship which took place in the weeks before the referendum, on the very same day as well as in the timer after the referendum.</abstract>
-<description>&lt;p&gt;
-The talk will focus on the methods used by the state to carry out the censorship. These included websites informing about the referendum and information about the polling station each citizen had to use. I will describe how the censorship got circumvented and give an insight in the systems developed to facilitate an easy cloning of the information.
-&lt;/p&gt;
-&lt;p&gt;
-On the day of the referendum it was expected that the Spanish police will close down polling stations. Therefor a global census accessible via internet was introduced which allowed the vote at any polling station. I will describe how this global census was organised to block people from voting twice. I will explain in which different ways the census got attacked by the Spanish state. And of course what we can learn from the state censorship to create more resilient infrastructures.
-&lt;/p&gt;</description>
+<description>The talk will focus on the methods used by the state to carry out the censorship. These included websites informing about the referendum and information about the polling station each citizen had to use. I will describe how the censorship got circumvented and give an insight in the systems developed to facilitate an easy cloning of the information.
+
+On the day of the referendum it was expected that the Spanish police will close down polling stations. Therefor a global census accessible via internet was introduced which allowed the vote at any polling station. I will describe how this global census was organised to block people from voting twice. I will explain in which different ways the census got attacked by the Spanish state. And of course what we can learn from the state censorship to create more resilient infrastructures.</description>
 <logo>/system/events/logos/000/009/028/large/democracia.jpg?1513769881</logo>
 <persons>
 <person id='7823'>Matthias</person>
@@ -5066,16 +5043,20 @@ Und darüber, was für mich und andere schließlich daraus geworden i</descripti
 <track>Resilience</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>This history of anonymisation networks is long.  Popular anonymisation networks rightfully  focus on Web browsing, because that is the most popular application on todays Internet.  The most popular anonymisation network is, rightfully so, Tor. You might, however, not have the requirements that mandate the use of the Tor network and thus are looking for alternatives. This talk presents a survey of anonymisation networks, what they achieve and how they differ.
-</abstract>
-<description>With the popularity of the Web came the popularity of anonymisation networks catering for the Web context.  That means in particular low latency.  Generally though, anonymisation networks can be classified by different properties such as sender anonymity, receiver anonymity, bandwith overhead, or strength of anonymity. 
+<abstract>There exists no such thing as a perfect anonymity network with low latency, low bandwith consumption which provides strong anonymity. 
+Popular anonymisation networks rightfully focus on  Web browsing, because that is the most popular application on todays Internet.  The most popular anonymisation network is, rightfully so, Tor. You might, however, not have the requirements that mandate the use of the Tor network and thus are looking for alternatives.
+In this talk, we present alternatives to the popular Tor anonymisation network and examine what they achieve and how they differ.</abstract>
+<description>With the popularity of the Web came the popularity of anonymisation communication networks (ACNs) catering for the Web context. That means in particular low latency. Generally, though, anonymisation networks can be classified by different properties such as anonymity goals, strength of adversary or application area.
+ 
+In this talk we present alternative ACNs to the popular Tor network and their goals.  We explain their architectures, properties, and how they achieve anonymity. In particular, we will look at JonDonym, I2P, Freenet, and GNUnet as well as ongoing research projects such as Loopix, Vuvuzela, and Riffle.
+ 
+We will see that once you understand your requirements, you can optimise your choice of anonymisation networks according to your needs.
 
-In this talk we will decompose anonymisation networks into their building blocks and examine how they work together in order to be resiliant against deanonymisation attacks.  We present alternative anonymisation communication networks which achieve different goals with different methods.  In particular, we will look at JonDonym, Riffle, and Herbivore as concrete instantiations of mix-nets.
 
-We will see that once you understand your requirements, you can engineer your anonymisation network&#39;s architecture according to your needs and get away with lower overhead in computation, latency, or bandwidth.</description>
+</description>
 <logo>/system/events/logos/000/009/104/large/Decryption_mix_net.png?1508154980</logo>
 <persons>
-<person id='83'>Muelli</person>
+<person id='83'>Tobias Mueller</person>
 <person id='6853'>Erik</person>
 <person id='7991'>Matthias</person>
 </persons>
@@ -6028,7 +6009,7 @@ Finally we will discuss the systemic dimension of MQA in the context of music-st
 The talk will consist of a theoretical part, an introduction on how to reverse-engineer and find vulnerabilities in a firmware-blob of unknown format, and a practical part, showcasing a live ICS environment that utilizes gateways, from both the IP and  the field-bus side, to pivot through an industrial control system environment: Demonstrating how to potentially pivot from a station in the field up to the SCADA headquarters, permanently modifying the firmware of the gateways on the way.</description>
 <logo></logo>
 <persons>
-<person id='7775'>nezza</person>
+<person id='7775'>Thomas Roth</person>
 </persons>
 <links>
 </links>
