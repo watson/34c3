@@ -6,13 +6,22 @@ var fs = require('fs')
 var path = require('path')
 var download = require('download-to-file')
 var xml2js = require('xml2js')
-var inquirer = require('inquirer')
 var nearest = require('nearest-date')
-var cliui = require('cliui')
+var diffy = require('diffy')({fullscreen: true})
+var input = require('diffy/input')()
+var trim = require('diffy/trim')
+var Grid = require('virtual-grid')
+var scrollable = require('scrollable-string')
+var Menu = require('menu-string')
+var wrap = require('wrap-ansi')
+var pad = require('fixed-width-string')
+var chalk = require('chalk')
 var argv = require('minimist')(process.argv.slice(2))
 
 var URL = 'https://events.ccc.de/congress/2017/Fahrplan/schedule.xml'
 var CACHE = path.join(os.homedir(), '.34c3', 'schedule.xml')
+var activeCol = 0
+var grid, talk
 
 if (argv.help || argv.h) help()
 else if (argv.version || argv.v) version()
@@ -25,7 +34,6 @@ function help () {
   console.log('Options:')
   console.log('  --help, -h     Show this help')
   console.log('  --version, -v  Show version')
-  console.log('  --manual, -m   Prompt for day (default to upcoming talk)')
   console.log('  --update, -u   Update schedule with new changes')
 }
 
@@ -42,30 +50,11 @@ function update () {
 }
 
 function run () {
-  if (argv.manual || argv.m) {
-    load(function (err, schedule) {
-      if (err) throw err
-      chooseDay(schedule)
-    })
-  } else {
-    console.log('Loading upcoming talks (select other days using --manual)...')
-    load(function (err, schedule) {
-      if (err) throw err
-      // find upcoming talks
-      var upcoming = schedule.day.some(function (day, index) {
-        var end = new Date(day.$.end).getTime()
-        if (end > Date.now()) {
-          chooseTalk(schedule.day[index])
-          return true
-        }
-      })
-      // if no upcoming talks were found, fall back to manual selection
-      if (!upcoming) {
-        console.log('No upcoming talks found! Falling back to manual selection...')
-        chooseDay(schedule)
-      }
-    })
-  }
+  load(function (err, schedule) {
+    if (err) throw err
+    initUI(schedule)
+    updateTopBar()
+  })
 }
 
 function load (cb) {
@@ -82,77 +71,160 @@ function load (cb) {
   })
 }
 
-function chooseDay (schedule) {
-  var choices = schedule.day.map(function (_, index) {
-    return {name: 'Day ' + (index + 1), value: index}
-  })
-  var questions = [{
-    type: 'list',
-    name: 'day',
-    message: 'Choose Day',
-    choices: choices
-  }]
-  inquirer.prompt(questions).then(function (answers) {
-    chooseTalk(schedule.day[answers.day], 0)
-  }).catch(function (err) {
-    console.error(err)
-    process.exit(1)
-  })
-}
+function initUI (schedule) {
+  // setup virtual grid
+  grid = new Grid([
+    [{height: 2, wrap: false, padding: [0, 1, 0, 0]}, {height: 2, wrap: false, padding: [0, 0, 0, 1]}],
+    [{padding: [0, 1, 0, 0], wrap: false}, {padding: [0, 0, 0, 1], wrap: false}]
+  ])
 
-function chooseTalk (schedule, selected) {
-  var choices = []
-  var totalIndex = 0
-  schedule.room.forEach(function (room, roomIndex) {
-    if (!room.event) return
-    room.event.forEach(function (event, index) {
-      choices.push({
-        name: `${event.start}: ${event.title[0]} (${event.room}, ${event.language[0].toUpperCase()})`,
-        value: {room: roomIndex, event: index, date: (new Date(event.date[0])).getTime()}
-      })
+  grid.on('update', function () {
+    diffy.render()
+  })
+
+  // setup screen
+  diffy.on('resize', function () {
+    grid.resize(diffy.width, diffy.height)
+  })
+
+  diffy.render(function () {
+    return grid.toString()
+  })
+
+  // generate menu
+  var menu = initMenu(schedule)
+
+  menu.on('update', function () {
+    grid.update(1, 0, menu.toString())
+  })
+
+  menu.select(nearest(menu.items.map(function (item) {
+    return item.date
+  })))
+
+  // listen for keybord input
+  input.on('keypress', function (ch, key) {
+    if (ch === 'k') goUp()
+    if (ch === 'j') goDown()
+  })
+  input.on('up', goUp)
+  input.on('down', goDown)
+
+  input.on('tab', function () {
+    activeCol = activeCol === 0 ? 1 : 0
+    updateTopBar()
+  })
+
+  input.on('enter', function () {
+    var item = menu.selected()
+    talk = scrollable(renderTalk(item.event), {
+      maxHeight: grid.cellAt(1, 1).height
     })
+    talk.on('update', updateTalk)
+    updateTalk()
   })
 
-  choices = choices
-    .sort(function (a, b) {
-      return a.value.date - b.value.date
-    }).map(function (choice) {
-      choice.value.index = totalIndex++
-      return choice
-    })
-
-  if (selected === undefined) {
-    selected = nearest(choices.map(function (choice) {
-      return choice.value.date
-    }))
+  function updateTalk () {
+    updateTopBar()
+    grid.update(1, 1, talk.toString())
   }
 
-  var questions = [{
-    type: 'list',
-    name: 'talk',
-    message: 'Choose Talk - Day ' + schedule.$.index,
-    choices: choices,
-    default: selected || 0
-  }]
+  function goUp () {
+    if (activeCol === 0) menu.up()
+    else if (talk) talk.up()
+  }
 
-  inquirer.prompt(questions).then(function (answers) {
-    printTalk(schedule.room[answers.talk.room].event[answers.talk.event])
-    chooseTalk(schedule, answers.talk.index)
-  }).catch(function (err) {
-    console.error(err)
-    process.exit(1)
-  })
+  function goDown () {
+    if (activeCol === 0) menu.down()
+    else if (talk) talk.down()
+  }
 }
 
-function printTalk (talk) {
-  var ui = cliui({width: 80})
-  ui.div()
-  ui.div({text: 'Room', width: 10}, {text: talk.room[0], width: 70})
-  ui.div({text: 'Start', width: 10}, {text: talk.start[0], width: 70})
-  ui.div({text: 'Duration', width: 10}, {text: talk.duration[0], width: 70})
-  ui.div({text: 'Title', width: 10}, {text: talk.title[0], width: 70})
-  ui.div({text: 'Subtitle', width: 10}, {text: talk.subtitle[0], width: 70})
-  ui.div({text: 'Abstract', width: 10}, {text: talk.abstract[0], width: 70})
-  ui.div()
-  console.log(ui.toString())
+function initMenu (schedule) {
+  var items = []
+
+  schedule.day.forEach(function (day, index) {
+    items.push({text: 'Day ' + (index + 1), separator: true})
+
+    var events = []
+
+    day.room.forEach(function (room, roomIndex) {
+      if (!room.event) return
+      room.event.forEach(function (event, index) {
+        events.push({
+          text: `  ${event.start}: ${event.title[0]} (${event.room}, ${event.language[0].toUpperCase()})`,
+          event: event,
+          date: (new Date(event.date[0])).getTime()
+        })
+      })
+    })
+
+    items = items.concat(events.sort(function (a, b) {
+      return a.date - b.date
+    }))
+  })
+
+  var maxWidth = items.reduce(function (max, item) {
+    return item.text.length > max ? item.text.length : max
+  }, 0)
+  var height = grid.cellAt(1, 0).height
+
+  var menu = new Menu({
+    items: items,
+    render: function (item, selected) {
+      return selected ? chalk.inverse(pad(item.text, maxWidth)) : item.text
+    },
+    height: height
+  })
+
+  return menu
+}
+
+function renderTopBar (text, active) {
+  return active
+    ? chalk.black.bgGreen(pad(text, process.stdout.columns))
+    : text
+}
+
+function updateTopBar () {
+  grid.update(0, 0, renderTopBar(` 34c3 schedule - ${chalk.bold('enter:')} select, ${chalk.bold('tab:')} switch column`, activeCol === 0))
+  grid.update(0, 1, renderTopBar(talk ? `Scroll: ${Math.round(talk.pct() * 100)}%` : '', activeCol === 1))
+}
+
+function renderTalk (talk) {
+  var cell = grid.cellAt(1, 1)
+  var width = cell.width - cell.padding[1] - cell.padding[3]
+
+  var body = trim(`
+    Room:     ${talk.room[0]}
+    Start:    ${talk.start[0]}
+    Duration: ${talk.duration[0]}
+
+    ${chalk.black.bgYellow('** Title **')}
+    ${talk.title[0]}
+  `)
+
+  if (talk.subtitle[0]) {
+    body = trim(`
+      ${body}
+      ${chalk.black.bgYellow('** Subtitle **')}
+      ${talk.subtitle[0]}
+    `)
+  }
+
+  body = trim(`
+    ${body}
+    ${chalk.black.bgYellow('** Abstract **')}
+    ${talk.abstract[0]}
+  `)
+
+  if (talk.description[0]) {
+    body = trim(`
+      ${body}
+      ${chalk.black.bgYellow('** Description **')}
+      ${talk.description[0]}
+    `)
+  }
+
+  return wrap(body, width)
 }
