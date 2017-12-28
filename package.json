@@ -1,6 +1,6 @@
 {
   "name": "34c3",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Chaos Communication Congress 2017 Schedule on the Command Line",
   "bin": "index.js",
   "scripts": {
@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/watson/34c3#readme",
   "coordinates": [
-    55.5248643,
-    9.7174065
+    51.396924,
+    12.3940333
   ]
 }
