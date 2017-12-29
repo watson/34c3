@@ -34,6 +34,7 @@ Get help using the `--help` option:
 Usage: 34c3 [options]
 
  --help, -h    Show this help
+ --version, -v Show version
  --update, -u  Update schedule with new changes
 ```
 
