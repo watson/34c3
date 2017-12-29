@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <schedule>
-<version>bcc</version>
+<version>Mildenberg</version>
 <conference>
 <acronym>34c3</acronym>
 <title>34th Chaos Communication Congress</title>
@@ -398,6 +398,7 @@ Finally, we confirmed our findings in practice, and found that every Wi-Fi devic
 <link href='https://github.com/vanhoefm/krackattacks-scripts'>Vulnerability detection scripts</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/382/original/34c3-krack-slides.pdf?1514471832'>Slides of presentation at 34c3</attachment>
 </attachments>
 </event>
 <event guid='84aa5c72-393c-4f06-8933-4178981ac6f7' id='9091'>
@@ -640,6 +641,8 @@ There are a lot of things that you can do with a formal specification: binary an
 <link href='https://alastairreid.github.io/ARM-v8a-xml-release/'>Things you can do with the specification</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/393/original/How_can_you_trust_formally_verified_software_-_34C3_27_December_2017.pdf?1514493955'>Slides: How can you trust formally verified software</attachment>
+<attachment href='/attachments/original/missing.png'>file</attachment>
 </attachments>
 </event>
 <event guid='51b586be-500c-436e-b70c-fc433e65c4be' id='9147'>
@@ -1493,7 +1496,7 @@ Weizman’s Forensic Architecture, stunning and shocking in its critical narrati
 <person id='6145'>Filippo Valsorda</person>
 </persons>
 <links>
-<link href='https://streaming.media.ccc.de/34c3/relive/9021'>ReLive</link>
+<link href='https://media.ccc.de/v/34c3-9021-squeezing_a_key_through_a_carry_bit'>Recording</link>
 </links>
 <attachments>
 <attachment href='/system/event_attachments/attachments/000/003/359/original/Paris256.pdf?1514390210'>Slide deck</attachment>
@@ -1760,10 +1763,10 @@ In this paper, we explore vulnerabilities in both the design and implementation 
 <track>Ethics, Society &amp; Politics</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>&lt;p&gt;When bad actors can simply move servers from country to country, why does the internet remain reasonably civil ?
+<abstract>When bad actors can simply move servers from country to country, why does the internet remain reasonably civil ?
 How does one get on, or get kicked off, of the internet ?
 Why do fraud and child abuse websites regularly get shut down but thepiratebay remains living ?
-I will explain BGP, the protocol that knits the internet together, also covering the world of last resort hosting, bulletproof hosting and high profile cases of servers that were taken offline and servers which could not be taken offline despite significant effort.&lt;/p&gt;</abstract>
+I will explain BGP, the protocol that knits the internet together, also covering the world of last resort hosting, bulletproof hosting and high profile cases of servers that were taken offline and servers which could not be taken offline despite significant effort.</abstract>
 <description>&lt;p&gt;We have been taught that someone must be in charge, there must be a supreme court of arbitration, otherwise chaos will reign. But we have before us an example of a network which does not have any supreme court, nor any official law or governing body besides ICANN.&lt;/p&gt;
 
 &lt;p&gt;The internet is made up of tens of thousands of organizations (known as Autonomous Systems) who interconnect with one another voluntarily in what are known as peering agreements. Over 99% of all peering agreements are handshake agreements with no written contract and providers trust one another to follow social norms which are present within the internet community.&lt;/p&gt;
@@ -1899,6 +1902,8 @@ Ziel des Vortrages ist es, Möglichkeiten der Beeinflussung durch Künstliche In
 <link href='http://hen-drik.de'>Hendrik Heuer Webseite</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/389/original/Beeinflussung_durch_KI.pdf?1514484999'>Slides</attachment>
+<attachment href='/attachments/original/missing.png'>file</attachment>
 </attachments>
 </event>
 <event guid='aed02b65-9a16-4a42-ac28-2883da680d0a' id='8860'>
@@ -1943,7 +1948,7 @@ Deeppwning: https://github.com/cchio/deep-pwning
 <event guid='4cb7be14-bfbd-42a2-a556-9ef8e8bd6ba7' id='9262'>
 <date>2017-12-28T15:15:00+01:00</date>
 <start>15:15</start>
-<duration>02:00</duration>
+<duration>02:30</duration>
 <room>Saal Adams</room>
 <slug>34c3-9262-jahresruckblick_des_ccc_2017</slug>
 <url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9262.html</url>
@@ -2008,6 +2013,7 @@ In this talk we will first start with a (short) crash course in CPU architecture
 <link href='http://emsec.rub.de/chair/_staff/Marc_Fyrbiak/'>Marc Fybriak Uni page</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/381/original/microcode_nonotes.pdf?1514471187'>Slides, nearly final</attachment>
 </attachments>
 </event>
 <event guid='03ba9edb-1d3a-4774-9384-7548c0696df7' id='8941'>
@@ -2087,6 +2093,7 @@ Together with the talk we&#39;re planning to make available detailed notes on re
 <link href='https://github.com/corna/me_cleaner'>me_cleaner project</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/391/original/Intel_ME_myths_and_reality.pdf?1514485294'>Presentations Slides</attachment>
 </attachments>
 </event>
 <event guid='5c5e888e-4556-405b-a205-e59b97db99e1' id='9075'>
@@ -2159,6 +2166,7 @@ Neben den juristischen wird sie auch auf folgende Fragen eingehen: Was hat eine 
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/379/original/17-12-28-linksunten-34C3.pdf?1514461289'>All Computers Are Beschlagnahmt: Folien der Präsentation</attachment>
 </attachments>
 </event>
 <event guid='2cb8f405-10be-40f5-ae95-579f024a0c84' id='9007'>
@@ -2505,6 +2513,7 @@ This talk presents the theory behind firmware-disclosure glitching, and aims to 
 <link href='http://github.com/ktemkin/Facedancer.git'>FaceDancer Project</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/392/original/34c3_glitchkit.pdf?1514487347'>Slides</attachment>
 </attachments>
 </event>
 <event guid='9ba995df-b1ca-402d-b1c8-c21e5faacd3b' id='8938'>
@@ -2527,11 +2536,12 @@ This talk presents the theory behind firmware-disclosure glitching, and aims to 
 <description>Our theory part covers both the biochemical and physical principles of fermenting fruit mash to alcohol, of distilling this alcohol to a fine spirit and best practices of how to gain maximum output at the best taste. The legal and regulations part shows how to do this process legally under the new German alcohol law of 2018, and how to avoid serious health risks, a.k.a. explosions and burn prevention. The theoretical part will close with a short introduction on the economics of craft distilling, in terms of time consumption and financial investments necessary to get up and running.</description>
 <logo>/system/events/logos/000/008/938/large/logo-still.jpg?1512323213</logo>
 <persons>
-<person id='6966'>lolnerd</person>
+<person id='6966'>freibrenner</person>
 </persons>
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/384/original/Home_Distilling_34c3_v3.pdf?1514475575'>Home Distilling - 34C3</attachment>
 </attachments>
 </event>
 <event guid='6d9ee2da-4907-415f-84b4-61ecfa783895' id='8946'>
@@ -2565,6 +2575,32 @@ We will cover the relevant measuring equipment as well as the theory behind each
 <persons>
 <person id='7761'>Nero Lapislucis</person>
 <person id='7707'>sir wombat</person>
+</persons>
+<links>
+</links>
+<attachments>
+</attachments>
+</event>
+<event guid='67680f81-cda8-4f5f-9ee1-5b2c6ed2db43' id='9298'>
+<date>2017-12-29T00:45:00+01:00</date>
+<start>00:45</start>
+<duration>02:00</duration>
+<room>Saal Borg</room>
+<slug>34c3-9298-hacker_jeopardy_stream</slug>
+<url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9298.html</url>
+<recording>
+<license></license>
+<optout>true</optout>
+</recording>
+<title>Hacker Jeopardy Stream</title>
+<subtitle>Zahlenraten für Geeks (Stream)</subtitle>
+<track>Entertainment</track>
+<type>other</type>
+<language>de</language>
+<abstract>The Hacker Jeopardy is a quiz show. -- Stream</abstract>
+<description></description>
+<logo></logo>
+<persons>
 </persons>
 <links>
 </links>
@@ -2617,17 +2653,9 @@ Im Rahmen seinen Vortrages wird er die Ergebnisse, die Methoden, die Rohdaten un
 <track>Security</track>
 <type>lecture</type>
 <language>en</language>
-<abstract>&lt;p&gt;
-Backing up private keys in a secure manner is not straightforward.
-Once a backup has been compromised you need to refresh all your key material.
-For example, the disclosure of a private key of a Bitcoin wallet gives access
-to the coins inside. This makes it unattractive to store a complete backup of
-your private key(s) with your bank or your spouse. The better option would be
-to split the key into multiple parts. The recommended way to do this securely
-is to use the Shamir secret sharing scheme. This talk provides a detailed
-breakdown of how the scheme works and explains how it is implemented in C in
-a new library called SSS.
-&lt;/p&gt;</abstract>
+<abstract>Backing up private keys in a secure manner is not straightforward. Once a backup has been compromised you need to refresh all your key material.
+For example, the disclosure of a private key of a Bitcoin wallet gives access to the coins inside. This makes it unattractive to store a complete backup of
+your private key(s) with your bank or your spouse. The better option would be to split the key into multiple parts. The recommended way to do this securely is to use the Shamir secret sharing scheme. This talk provides a detailed breakdown of how the scheme works and explains how it is implemented in C in a new library called SSS.</abstract>
 <description>&lt;p&gt;
 Shamir secret sharing is a mechanism that securely splits private keys or
 passwords into independent parts. These parts do not give away the secret on
@@ -2886,6 +2914,7 @@ I won&#39;t touch IC development (none of the points mentioned &lt;a href=https:
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/400/original/34C3_-_The_making_of_a_chip.mini.odp?1514512418'>The making of a chip - slides</attachment>
 </attachments>
 </event>
 <event guid='86c60da2-fefc-4750-ad22-fa821ce619b1' id='9135'>
@@ -2943,8 +2972,10 @@ rely on randomized virtual addresses as a building block.
 </persons>
 <links>
 <link href='http://www.cs.vu.nl/~herbertb/download/papers/anc_ndss17.pdf'>paper (PDF)</link>
+<link href='https://vusec.net/projects/anc/'>Project page</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/399/original/aotl-34c3-slides.pdf?1514505998'>slides</attachment>
 </attachments>
 </event>
 <event guid='7f293cf6-6d19-43ed-8aa7-7371e008bd45' id='9029'>
@@ -3255,6 +3286,8 @@ OBD dongle reverse engineering</description>
 <links>
 </links>
 <attachments>
+<attachment href='/attachments/original/missing.png'>file</attachment>
+<attachment href='/attachments/original/missing.png'>file</attachment>
 </attachments>
 </event>
 <event guid='6cccf75c-93a1-48df-b9fc-843da8359bd3' id='9077'>
@@ -3316,6 +3349,7 @@ Against this backdrop, I will also speculate about possible interventions inside
 <link href='http://www.hmkv.de/_en/programm/programmpunkte/2017/Veranstaltungen/03_AFRO_Fest/2017_AFRO_Fest_Uebersicht.php'>http://www.hmkv.de/</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/404/original/2017_ARNS_Afro-Tech_CCC-scaled.pdf?1514546288'>Slides</attachment>
 </attachments>
 </event>
 <event guid='81530917-cfdd-4a08-bf29-9b71fafb1bc1' id='9222'>
@@ -3343,6 +3377,7 @@ Against this backdrop, I will also speculate about possible interventions inside
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/403/original/Noise_34C3.pdf?1514544456'>Slides</attachment>
 </attachments>
 </event>
 <event guid='c38ddf1b-10d7-462c-a934-e69e9259ab19' id='9006'>
@@ -3484,6 +3519,7 @@ For CCC we will bring two robots. One for performing and one for hacking. We are
 <link href='jacobremin.com/robotmusic'>Robot Music</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/383/original/CCC_robot_music_slides.pdf?1514474682'>slides from presentation</attachment>
 </attachments>
 </event>
 </room>
@@ -3615,6 +3651,7 @@ In this talk, we demonstrate the performance of the inspection system in an actu
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/401/original/34c3-Vintage-Verification.pdf?1514542192'>Slides</attachment>
 </attachments>
 </event>
 <event guid='73bcc647-faa3-4c6c-8a48-8d540de454ee' id='9240'>
@@ -3750,7 +3787,7 @@ I end the presentation with some results and conclusions. I will list what the o
 <optout>false</optout>
 </recording>
 <title>Decoding Contactless (Card) Payments </title>
-<subtitle>An Exploration of NFC Transactions and Explanation How Apple Pay and Android Pay work</subtitle>
+<subtitle>An Exploration of NFC Transactions and Explanation How Apple Pay and Android Pay Work</subtitle>
 <track>Security</track>
 <type>lecture</type>
 <language>en</language>
@@ -3928,14 +3965,14 @@ We have liberated devices controlling the production of heat (NBE Pellet system,
 <optout>false</optout>
 </recording>
 <title>OONI: Let&#39;s Fight Internet Censorship, Together!</title>
-<subtitle></subtitle>
+<subtitle>The Open Observatory of Network Interference</subtitle>
 <track>Resilience</track>
 <type>lecture</type>
 <language>en</language>
 <abstract>How can we take a stand against the increasing shadow of Internet censorship? With OONI Probe you can join us in uncovering evidence of network interference!</abstract>
 <description>During this talk we will give you an overview of the challenges people around the world face when accessing the internet. In 2017, we have witnessed multiple cases of Internet censorship being used as a tool to suppress controversial political views. We&#39;ve also seen increasing censorship of conversations between individuals, reflected by the blocks on chat networks like WhatsApp and Signal.
 
-OONI, the Open Observatory of Network Interference is a project for documenting and revealing these violations of Internet Connectivity. In 2017, we released mobile applications, reported on policy changes, expanded our testing to being detecting throttling, and now process close to 100,000 measurements from over 150 countries each month. We&#39;ll share how we&#39;re thinking about increasing transparency and accountability around the issues of access and censorship, and how you can join this growing, open, movement.</description>
+OONI, the Open Observatory of Network Interference is a project for documenting and revealing these violations of Internet Connectivity. In 2017, we released mobile applications, reported on policy changes, expanded our testing to detect throttling, and now process close to 100,000 measurements from over 200 countries each month. We&#39;ll share how we&#39;re thinking about increasing transparency and accountability around the issues of access and censorship, and how you can join this growing, open, movement.</description>
 <logo>/system/events/logos/000/008/923/large/Long_wordmark.png?1507904134</logo>
 <persons>
 <person id='7749'>Arturo Filastò (hellais)</person>
@@ -4111,7 +4148,7 @@ III. Hacking the System
 We conclude with examples of what could be effective solutions to the climate problem and what we can do – hacking our political and economic system rather than the earth system. How can individuals contribute? What societal changes do we need?</description>
 <logo></logo>
 <persons>
-<person id='7763'>seyru</person>
+<person id='7763'>Katja Bigge (seyru)</person>
 <person id='7877'>Sven Willner</person>
 <person id='7878'>Robert Gieseke</person>
 </persons>
@@ -4247,9 +4284,9 @@ In this talk I will describe the range of groups involved in data preservation e
 </attachments>
 </event>
 <event guid='c297bff4-55ca-473c-afef-0064970a47b2' id='8741'>
-<date>2017-12-30T00:00:00+01:00</date>
-<start>00:00</start>
-<duration>00:30</duration>
+<date>2017-12-29T23:15:00+01:00</date>
+<start>23:15</start>
+<duration>00:45</duration>
 <room>Saal Borg</room>
 <slug>34c3-8741-treibhausgasemissionen_einschatzen</slug>
 <url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/8741.html</url>
@@ -4285,8 +4322,14 @@ Hier werden keine kompletten, korrekten Ökobilanzen errechnet, sondern es geht 
 <link href='http://iinas.org/gemis-de.html'>GEMIS (Windows oder WINE / Crossoverbenötigt)</link>
 <link href='https://www.eingutertag.org/de/'>Ein guter Tag hat 100 Punkte</link>
 <link href='http://www.probas.umweltbundesamt.de/php/index.php'>ProBas</link>
+<link href='https://www.ivl.se/english/startpage/pages/publications/publication.html?id=5407'>The Life Cycle Energy Consumption and Greenhouse Gas Emissions from Lithium-Ion Batteries</link>
+<link href='https://www.berlin.de/ba-charlottenburg-wilmersdorf/verwaltung/aemter/umwelt-und-naturschutzamt/unterhaltung/artikel.643410.php'>Auch spannend: Noch mehr Alltagsgegenstände mit Luftballons</link>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/395/original/Treibhausgasemissionen_einschaetzen.pdf?1514496834'>Folien (Stand 28.12.2017)</attachment>
+<attachment href='/system/event_attachments/attachments/000/003/396/original/34c3.zip?1514496834'>GEMIS-Datensatz - Entpacken und in Gemis öffnen </attachment>
+<attachment href='/system/event_attachments/attachments/000/003/397/original/event_attachments_attachments_000_003_217_original_20171002_133106_HDR.jpg?1514497012'>Auch spannend: CO2-Emissionen einer Tasse Tee in Luftballons</attachment>
+<attachment href='/system/event_attachments/attachments/000/003/398/original/Bierzerlegung.pdf?1514497301'>Auch spannend: CO2-Emissionen von Bier in Luftballons</attachment>
 </attachments>
 </event>
 </room>
@@ -4380,7 +4423,7 @@ In this talk we&#39;ll provide an overview of the NERF project, the currently su
 <abstract>An overview and history of various tools and languages that allow you to use code rather than CAD software to design circuits. </abstract>
 <description>For anyone used to expressing their ideas with code using a CAD tool to design electronics can be an even more frustrating exercise than normal. If you are a programmer thinking about getting into designing circuits or if you have ever thought &quot;I could easily solve this with a for-loop&quot; when using KiCad then this talk is for you.
 
-We will cover the history of ideas of using code to describe electronic circuits and culminate in the presenter&#39;s own work in advancing the state of the art through formal grammars, structured editors, code synthesis and combining programmatic and graphical manipulation in user interfaces. </description>
+We will cover the short history of ideas of using code to describe electronic circuits and culminate in some of the presenter&#39;s own experiments in this area.</description>
 <logo>/system/events/logos/000/008/818/large/mod.png?1507475784</logo>
 <persons>
 <person id='6722'>Kaspar</person>
@@ -4391,6 +4434,8 @@ We will cover the history of ideas of using code to describe electronic circuits
 <link href='https://https://github.com/dvc94ch/pycircuit'>PyCircuit</link>
 <link href='https://github.com/nturley/netlistsvg'>netlistsvg</link>
 <link href='https://monostable.github.io/electro-grammar/'>Electro Grammar</link>
+<link href='https://github.com/monostable/replicad'>RepliCAD</link>
+<link href='https://kitspace.org'>Kitspace.org</link>
 </links>
 <attachments>
 </attachments>
@@ -4550,7 +4595,7 @@ We designed and created a global management interface to facilitate multiple gro
 <url>https://fahrplan.events.ccc.de/congress/2017/Fahrplan/events/9253.html</url>
 <recording>
 <license></license>
-<optout>false</optout>
+<optout>true</optout>
 </recording>
 <title>Inside AfD</title>
 <subtitle></subtitle>
@@ -4678,6 +4723,7 @@ If DNA analysis is to be implemented in Germany – and it very well might be �
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/380/original/34c3_AM.pptx?1514471100'>Extended DNA Analysis</attachment>
 </attachments>
 </event>
 <event guid='e4eaa421-652a-4309-9e04-fe46aa3da50d' id='9134'>
@@ -5243,6 +5289,7 @@ We will also show a few clues to indicate how we could target multi-threaded/mul
 <links>
 </links>
 <attachments>
+<attachment href='/system/event_attachments/attachments/000/003/402/original/main.pdf?1514543747'>My slides (may be updated)</attachment>
 </attachments>
 </event>
 <event guid='bf23997f-20bb-40a5-96f9-5f43f453e9dd' id='8961'>
