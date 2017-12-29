@@ -106,6 +106,7 @@ function initUI (schedule) {
   input.on('keypress', function (ch, key) {
     if (ch === 'k') goUp()
     if (ch === 'j') goDown()
+    if (ch === 'q') process.exit()
   })
   input.on('up', goUp)
   input.on('down', goDown)
