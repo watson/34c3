@@ -111,6 +111,16 @@ function initUI (schedule) {
   input.on('up', goUp)
   input.on('down', goDown)
 
+  input.on('left', function () {
+    activeCol = 0
+    updateTopBar()
+  })
+
+  input.on('right', function () {
+    activeCol = 1
+    updateTopBar()
+  })
+
   input.on('tab', function () {
     activeCol = activeCol === 0 ? 1 : 0
     updateTopBar()
