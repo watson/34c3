@@ -16,7 +16,7 @@ tool can simply be run using:
 npx 34c3
 ```
 
-But if you whish, you can install it globally like in the old days:
+But if you wish, you can install it globally like in the old days:
 
 ```
 npm install 34c3 -g
