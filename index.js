@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 'use strict'
 
+process.title = require('./package').name
+
 var os = require('os')
 var fs = require('fs')
 var path = require('path')
