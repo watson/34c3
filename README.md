@@ -34,7 +34,6 @@ Get help using the `--help` option:
 Usage: 34c3 [options]
 
  --help, -h    Show this help
- --manual, -m  Prompt for day (default to upcoming talk)
  --update, -u  Update schedule with new changes
 ```
 
