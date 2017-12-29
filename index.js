@@ -65,10 +65,20 @@ function load (cb) {
     console.log('Schedule cache:', filepath)
     fs.readFile(filepath, function (err, xml) {
       if (err) return cb(err)
-      xml2js.parseString(xml, function (err, result) {
-        if (err) return cb(err)
-        cb(null, result.schedule)
-      })
+      // Unfortunately error handling is very bad in xml2js, so it will throw
+      // if the xml is malformed instead of passing on the error to the
+      // callback. Bug report:
+      // https://github.com/Leonidas-from-XIV/node-xml2js/issues/408
+      try {
+        xml2js.parseString(xml, function (err, result) {
+          if (err) return cb(err)
+          cb(null, result.schedule)
+        })
+      } catch (e) {
+        console.error('Could not parse conference schedule - malformed XML!')
+        console.error('Run "34c3 --update" to re-download the schedule')
+        process.exit(1)
+      }
     })
   })
 }
