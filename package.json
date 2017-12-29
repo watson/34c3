@@ -5,7 +5,7 @@
   "bin": "index.js",
   "scripts": {
     "test": "standard",
-    "update": "curl https://events.ccc.de/congress/2017/Fahrplan/schedule.xml > schedule.xml"
+    "update": "curl https://events.ccc.de/congress/2017/Fahrplan/schedule.xml > schedule.tmp && mv schedule.tmp schedule.xml"
   },
   "keywords": [
     "ccc",
